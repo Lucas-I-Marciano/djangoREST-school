@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from apps.school.models import Estudante, Curso
+from apps.school.models import Estudante, Curso, Matricula
 
 # Register your models here.
 
@@ -24,3 +24,11 @@ class CursoAdmin(admin.ModelAdmin):
     search_fields = ['codigo']
 
 admin.site.register(Curso, CursoAdmin)
+
+class MatriculaAdmin(admin.ModelAdmin):
+    list_display  = ['id', 'estudante', 'curso', 'periodo']
+    list_display_links = ['id', 'estudante', 'curso']
+    list_filter = ['periodo']
+    list_per_page = 20
+
+admin.site.register(Matricula, MatriculaAdmin)
