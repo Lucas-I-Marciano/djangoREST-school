@@ -15,6 +15,12 @@ class EstudanteAdmin(admin.ModelAdmin):
 admin.site.register(Estudante, EstudanteAdmin)
 
 class CursoAdmin(admin.ModelAdmin):
-    pass
+    empty_value_display = "-?-"
+    list_display  = ['id', 'codigo', 'descricao', 'nivel']
+    list_display_links = ['id', 'codigo']
+    list_editable = ['nivel']
+    list_filter = ['nivel']
+    list_per_page = 20
+    search_fields = ['codigo']
 
 admin.site.register(Curso, CursoAdmin)
