@@ -2,8 +2,8 @@ from django.shortcuts import render
 from django.http import JsonResponse
 from rest_framework import viewsets
 
-from apps.school.models import Estudante, Curso
-from apps.school.serializers import EstudanteSerializer, CursoSerializer
+from apps.school.models import Estudante, Curso, Matricula
+from apps.school.serializers import EstudanteSerializer, CursoSerializer, MatriculaSerializer
 
 # Create your views here.
 
@@ -21,3 +21,7 @@ class EstudanteViewSet(viewsets.ModelViewSet):
 class CursoViewSet(viewsets.ModelViewSet):
     queryset = Curso.objects.all()
     serializer_class = CursoSerializer
+
+class MatriculaViewSet(viewsets.ModelViewSet):
+    queryset = Matricula.objects.all()
+    serializer_class = MatriculaSerializer
