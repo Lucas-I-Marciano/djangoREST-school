@@ -39,7 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'apps.school.apps.SchoolConfig',
     'rest_framework',
-    'snippets'
+    'apps.snippets.apps.SnippetsConfig'
 ]
 
 MIDDLEWARE = [
