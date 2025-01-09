@@ -5,27 +5,31 @@ from rest_framework.parsers import JSONParser
 from apps.snippets.models import Snippet
 from apps.snippets.serializers import SnippetSerializer
 
+from rest_framework import status, permissions
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.response import Response
+
 # Create your views here.
-@csrf_exempt
-def snippet_list(request):
+@api_view(['GET', 'POST'])
+@permission_classes((permissions.AllowAny,))
+def snippet_list(request, format=None):
     """
     List all code snippets, or create a new snippet.
     """
     if request.method == "GET":
         snippet = Snippet.objects.all()
         serializer = SnippetSerializer(snippet, many=True)
-        return JsonResponse(serializer.data, safe=False)
+        return Response(serializer.data)
 
     elif request.method == "POST":
-        data = JSONParser().parse(request)
-        serializer = SnippetSerializer(data=data)
+        serializer = SnippetSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
-            return JsonResponse(serializer.data, status=201)
-        return JsonResponse(serializer.errors, status=400)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-@csrf_exempt
+@api_view(['GET', 'PUT', 'DELETE'])
 def snippet_detail(request, pk):
     """
     Retrieve, update or delete a code snippet.
