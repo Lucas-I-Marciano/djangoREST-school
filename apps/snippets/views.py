@@ -9,24 +9,30 @@ from rest_framework import status, permissions
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 
+from rest_framework.views import APIView
+
 # Create your views here.
-@api_view(['GET', 'POST'])
 @permission_classes((permissions.AllowAny,))
-def snippet_list(request, format=None):
+class SnippetList(APIView):
     """
-    List all code snippets, or create a new snippet.
+    List all snippets, or create a new snippet.
     """
-    if request.method == "GET":
-        snippet = Snippet.objects.all()
-        serializer = SnippetSerializer(snippet, many=True)
+    def get(self, request):
+        snippets = Snippet.objects.all()
+        serializer = SnippetSerializer(snippets, many=True)
         return Response(serializer.data)
 
-    elif request.method == "POST":
+    def post(self, request):
         serializer = SnippetSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+# class SnippetDetail(APIView):
+    """
+    Retrieve, update or delete a snippet instance.
+    """
 
 
 @api_view(['GET', 'PUT', 'DELETE'])
