@@ -13,11 +13,7 @@ from rest_framework.views import APIView
 
 # Create your views here.
 @permission_classes((permissions.AllowAny,))
-class SnippetList(
-    mixins.ListModelMixin,
-    mixins.CreateModelMixin,
-    generics.GenericAPIView
-    ):
+class SnippetList(generics.ListCreateAPIView):
     """
     List all snippets, or create a new snippet.
     """
@@ -31,12 +27,7 @@ class SnippetList(
 
 
 @permission_classes((permissions.AllowAny,))
-class SnippetDetail(
-    mixins.RetrieveModelMixin,
-    mixins.UpdateModelMixin,
-    mixins.DestroyModelMixin,
-    generics.GenericAPIView
-):
+class SnippetDetail(generics.RetrieveUpdateDestroyAPIView):
     """
     Retrieve, update or delete a snippet instance.
     """
