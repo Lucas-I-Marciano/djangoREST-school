@@ -1,15 +1,13 @@
-from django.http import HttpResponse, JsonResponse, Http404
-from django.views.decorators.csrf import csrf_exempt
-from rest_framework.parsers import JSONParser
+from django.http import Http404
 
 from apps.snippets.models import Snippet
 from apps.snippets.serializers import SnippetSerializer
 
 from rest_framework import status, permissions
-from rest_framework.decorators import api_view, permission_classes
+from rest_framework.decorators import permission_classes
 from rest_framework.response import Response
-
 from rest_framework.views import APIView
+
 
 # Create your views here.
 @permission_classes((permissions.AllowAny,))
