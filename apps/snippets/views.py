@@ -1,7 +1,8 @@
 from django.http import Http404
+from django.contrib.auth.models import User
 
 from apps.snippets.models import Snippet
-from apps.snippets.serializers import SnippetSerializer
+from apps.snippets.serializers import SnippetSerializer, UserSerializer
 
 from rest_framework import status, permissions, mixins, generics
 from rest_framework.decorators import permission_classes
@@ -42,3 +43,8 @@ class SnippetDetail(generics.RetrieveUpdateDestroyAPIView):
 
     def delete(self, request, *args, **kwargs):
         return self.destroy(request, *args, **kwargs)
+
+@permission_classes((permissions.AllowAny,))
+class UserList(generics.ListAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
