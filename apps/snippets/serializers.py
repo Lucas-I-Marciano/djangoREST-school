@@ -5,7 +5,7 @@ from django.contrib.auth import models
 class SnippetSerializer(serializers.ModelSerializer):
     class Meta:
         model = Snippet
-        exclude = ['owner', 'highlighted']
+        exclude = ['highlighted']
 
 
 class UserSerializer(serializers.ModelSerializer):
