@@ -13,7 +13,7 @@ from rest_framework.views import APIView
 
 
 # Create your views here.
-@permission_classes((permissions.AllowAny,))
+@permission_classes([permissions.IsAuthenticatedOrReadOnly])
 class SnippetList(generics.ListCreateAPIView):
     """
     List all snippets, or create a new snippet.
@@ -30,7 +30,7 @@ class SnippetList(generics.ListCreateAPIView):
         serializer.save(owner=self.request.user)
 
 
-@permission_classes((permissions.AllowAny,))
+@permission_classes([permissions.IsAuthenticatedOrReadOnly])
 class SnippetDetail(generics.RetrieveUpdateDestroyAPIView):
     """
     Retrieve, update or delete a snippet instance.
@@ -47,7 +47,7 @@ class SnippetDetail(generics.RetrieveUpdateDestroyAPIView):
     def delete(self, request, *args, **kwargs):
         return self.destroy(request, *args, **kwargs)
 
-@permission_classes((permissions.AllowAny,))
+@permission_classes([permissions.IsAuthenticatedOrReadOnly])
 class UserList(generics.ListAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
