@@ -9,6 +9,7 @@ class SnippetSerializer(serializers.ModelSerializer):
 
 
 class UserSerializer(serializers.ModelSerializer):
+    related_snippets = serializers.PrimaryKeyRelatedField(many=True, queryset=Snippet.objects.all())
     class Meta:
         model = models.User
-        fields = ['id', 'username', 'snippets']
+        fields = ['id', 'username', 'related_snippets'] # 'related_snippets' because I specify related_name='related_snippets' 
