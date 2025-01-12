@@ -10,6 +10,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from apps.snippets.permissions import IsOwnerOrReadOnly
+from rest_framework.reverse import reverse
 
 
 
@@ -66,6 +67,6 @@ class UserDetail(generics.RetrieveAPIView):
 @permission_classes((permissions.AllowAny,))
 def api_root(request, format=None):
     return Response({
-        'users': "LINK - USERS",
+        'users': reverse('user-list', request=request, format=format),
         'snippets': "LINK - SNIPPETS"
     })
