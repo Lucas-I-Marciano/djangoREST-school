@@ -5,7 +5,7 @@ from apps.snippets.models import Snippet
 from apps.snippets.serializers import SnippetSerializer, UserSerializer
 
 from rest_framework import status, permissions, mixins, generics
-from rest_framework.decorators import permission_classes
+from rest_framework.decorators import permission_classes, api_view
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
@@ -60,3 +60,12 @@ class UserList(generics.ListAPIView):
 class UserDetail(generics.RetrieveAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
+
+
+@api_view(['GET'])
+@permission_classes((permissions.AllowAny,))
+def api_root(request, format=None):
+    return Response({
+        'users': "LINK - USERS",
+        'snippets': "LINK - SNIPPETS"
+    })
