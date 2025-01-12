@@ -12,6 +12,8 @@ from rest_framework.views import APIView
 from apps.snippets.permissions import IsOwnerOrReadOnly
 from rest_framework.reverse import reverse
 
+from rest_framework import viewsets
+
 
 
 # Create your views here.
@@ -50,6 +52,11 @@ class SnippetDetail(generics.RetrieveUpdateDestroyAPIView):
     def delete(self, request, *args, **kwargs):
         return self.destroy(request, *args, **kwargs)
 
+
+class UserViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
 class UserList(generics.ListAPIView):
     queryset = User.objects.all()
