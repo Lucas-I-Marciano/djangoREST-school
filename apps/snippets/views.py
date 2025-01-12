@@ -68,5 +68,5 @@ class UserDetail(generics.RetrieveAPIView):
 def api_root(request, format=None):
     return Response({
         'users': reverse('user-list', request=request, format=format),
-        'snippets': "LINK - SNIPPETS"
+        'snippets': reverse('snippet-list', request=request, format=format)
     })
