@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 from apps.snippets.models import Snippet
 from apps.snippets.serializers import SnippetSerializer, UserSerializer
 
-from rest_framework import status, permissions, mixins, generics
+from rest_framework import status, permissions, mixins, generics, renderers
 from rest_framework.decorators import permission_classes, api_view
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -70,3 +70,13 @@ def api_root(request, format=None):
         'users': reverse('user-list', request=request, format=format),
         'snippets': reverse('snippet-list', request=request, format=format)
     })
+
+
+class SnippetHighlight(generics.GenericAPIView):
+    queryset = Snippet.objects.all()
+    renderer_classes = [renderers.StaticHTMLRenderer]
+
+    def get(self, request, *args, **kwargs):
+        print(kwargs)
+        snippet = self.get_object()
+        return Response(snippet.highlighted)
