@@ -10,8 +10,8 @@ class SnippetSerializer(serializers.ModelSerializer):
         exclude = ['highlighted']
 
 
-class UserSerializer(serializers.ModelSerializer):
-    related_snippets = serializers.PrimaryKeyRelatedField(many=True, queryset=Snippet.objects.all())
+class UserSerializer(serializers.HyperlinkedModelSerializer):
+    related_snippets = serializers.HyperlinkedIdentityField(many=True, view_name='snippet-detail', read_only=True)
     class Meta:
         model = models.User
-        fields = ['id', 'username', 'related_snippets'] # 'related_snippets' because I specify related_name='related_snippets' 
+        fields = ['id', 'username', 'related_snippets', 'url'] # 'related_snippets' because I specify related_name='related_snippets' 
