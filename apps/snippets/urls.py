@@ -15,9 +15,16 @@ snippet_list = views.SnippetViewSet.as_view({
     'post' : 'create'
 })
 
+snippet_detail = views.SnippetViewSet.as_view({
+    'get' : 'retrieve',
+    'put' : 'update',
+    'patch' : 'partial_update',
+    'delete' : 'destroy'
+})
+
 urlpatterns = [
     path('snippets/', snippet_list, name='snippet-list'),
-    path('snippets/<int:pk>/', views.SnippetDetail.as_view(), name='snippet-detail'),
+    path('snippets/<int:pk>/', snippet_detail, name='snippet-detail'),
     path('users/', user_list, name='user-list'),
     path('users/<int:pk>/', user_detail, name='user-detail'),
     path('', views.api_root),
