@@ -5,7 +5,7 @@ from apps.snippets.models import Snippet
 from apps.snippets.serializers import SnippetSerializer, UserSerializer
 
 from rest_framework import status, permissions, mixins, generics, renderers
-from rest_framework.decorators import permission_classes, api_view
+from rest_framework.decorators import permission_classes, api_view, action
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
@@ -25,6 +25,11 @@ class SnippetViewSet(viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
         serializer.save(owner = self.request.user)
+
+    @action(detail=True, renderer_classes=[renderers.StaticHTMLRenderer])
+    def highlight(self, request, *args, **kwargs):
+        snippet = self.get_object()
+        return Response(snippet.highlighted)
     
 class SnippetList(generics.ListCreateAPIView):
     """
