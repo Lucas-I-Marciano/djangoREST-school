@@ -5,7 +5,7 @@ from django.contrib.auth import models
 class SnippetSerializer(serializers.HyperlinkedModelSerializer):
     owner = serializers.ReadOnlyField(source='owner.username')
     owner_last_login = serializers.ReadOnlyField(source='owner.last_login')
-    highlighted_code = serializers.HyperlinkedIdentityField(view_name='snippet-highlight')
+    highlighted_code = serializers.HyperlinkedIdentityField(view_name='snippet-highlight') # view_name = [model]-[functions name with @action decorator]
     class Meta:
         model = Snippet
         exclude = ['highlighted']
