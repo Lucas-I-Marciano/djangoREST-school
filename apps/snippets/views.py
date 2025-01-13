@@ -17,6 +17,12 @@ from rest_framework import viewsets
 
 
 # Create your views here.
+
+class SnippetViewSet(viewsets.ModelViewSet):
+    queryset = Snippet.objects.all()
+    serializer_class = SnippetSerializer
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
+    
 class SnippetList(generics.ListCreateAPIView):
     """
     List all snippets, or create a new snippet.
