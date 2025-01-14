@@ -1,9 +1,12 @@
 from django.shortcuts import render
 from django.http import JsonResponse
-from rest_framework import viewsets
+from rest_framework import viewsets, generics
 
-from apps.school.models import Estudante, Curso
-from apps.school.serializers import EstudanteSerializer, CursoSerializer
+from apps.school.models import Estudante, Curso, Matricula
+from apps.school.serializers import EstudanteSerializer, CursoSerializer, MatriculaSerializer, MatriculasEstudantesSerializer, MatriculasCursosSerializer
+
+from rest_framework.authentication import BasicAuthentication
+from rest_framework.permissions import IsAuthenticated
 
 # Create your views here.
 
@@ -21,3 +24,19 @@ class EstudanteViewSet(viewsets.ModelViewSet):
 class CursoViewSet(viewsets.ModelViewSet):
     queryset = Curso.objects.all()
     serializer_class = CursoSerializer
+
+class MatriculaViewSet(viewsets.ModelViewSet):
+    queryset = Matricula.objects.all()
+    serializer_class = MatriculaSerializer
+
+
+class MatriculasEstudantesView(generics.ListAPIView):
+    serializer_class = MatriculasEstudantesSerializer
+    def get_queryset(self):
+        return Matricula.objects.filter(estudante=self.kwargs['pk'])
+    
+
+class MatriculasCursosView(generics.ListAPIView):
+    serializer_class = MatriculasCursosSerializer
+    def get_queryset(self):
+        return Matricula.objects.filter(curso=self.kwargs['pk'])
