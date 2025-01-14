@@ -31,3 +31,9 @@ class MatriculasEstudantesView(generics.ListAPIView):
     serializer_class = MatriculasEstudantesSerializer
     def get_queryset(self):
         return Matricula.objects.filter(estudante=self.kwargs['pk'])
+    
+
+class MatriculasCursosView(generics.ListAPIView):
+    serializer_class = MatriculaSerializer
+    def get_queryset(self):
+        return Matricula.objects.filter(curso=self.kwargs['pk'])
