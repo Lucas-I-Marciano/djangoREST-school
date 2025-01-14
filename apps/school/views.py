@@ -3,7 +3,7 @@ from django.http import JsonResponse
 from rest_framework import viewsets, generics
 
 from apps.school.models import Estudante, Curso, Matricula
-from apps.school.serializers import EstudanteSerializer, CursoSerializer, MatriculaSerializer, MatriculasEstudantesSerializer
+from apps.school.serializers import EstudanteSerializer, CursoSerializer, MatriculaSerializer, MatriculasEstudantesSerializer, MatriculasCursosSerializer
 
 # Create your views here.
 
@@ -34,6 +34,6 @@ class MatriculasEstudantesView(generics.ListAPIView):
     
 
 class MatriculasCursosView(generics.ListAPIView):
-    serializer_class = MatriculaSerializer
+    serializer_class = MatriculasCursosSerializer
     def get_queryset(self):
         return Matricula.objects.filter(curso=self.kwargs['pk'])

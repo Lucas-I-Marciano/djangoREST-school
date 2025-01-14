@@ -27,3 +27,14 @@ class MatriculasEstudantesSerializer(serializers.ModelSerializer):
 
     def get_periodo(self, obj):
         return obj.get_periodo_display()
+    
+class MatriculasCursosSerializer(serializers.ModelSerializer):
+    periodo = serializers.SerializerMethodField()
+    estudante = serializers.ReadOnlyField(source='estudante.nome')
+    estudante_email = serializers.ReadOnlyField(source='estudante.email')
+    class Meta:
+        model = Matricula
+        fields = ['id', 'periodo', 'estudante', 'estudante_email']
+
+    def get_periodo(self, obj):
+        return obj.get_periodo_display()
