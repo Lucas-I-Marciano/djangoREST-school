@@ -18,20 +18,14 @@ def estudantes(request):
     return JsonResponse(estudantes)
 
 class EstudanteViewSet(viewsets.ModelViewSet):
-    authentication_classes = [BasicAuthentication]
-    permission_classes = [IsAuthenticated]
     queryset = Estudante.objects.all()
     serializer_class = EstudanteSerializer
 
 class CursoViewSet(viewsets.ModelViewSet):
-    authentication_classes = [BasicAuthentication]
-    permission_classes = [IsAuthenticated]
     queryset = Curso.objects.all()
     serializer_class = CursoSerializer
 
 class MatriculaViewSet(viewsets.ModelViewSet):
-    authentication_classes = [BasicAuthentication]
-    permission_classes = [IsAuthenticated]
     queryset = Matricula.objects.all()
     serializer_class = MatriculaSerializer
 
