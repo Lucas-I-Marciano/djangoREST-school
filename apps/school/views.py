@@ -5,6 +5,9 @@ from rest_framework import viewsets, generics
 from apps.school.models import Estudante, Curso, Matricula
 from apps.school.serializers import EstudanteSerializer, CursoSerializer, MatriculaSerializer, MatriculasEstudantesSerializer, MatriculasCursosSerializer
 
+from rest_framework.authentication import BasicAuthentication
+from rest_framework.permissions import IsAuthenticated
+
 # Create your views here.
 
 def estudantes(request):
@@ -15,14 +18,20 @@ def estudantes(request):
     return JsonResponse(estudantes)
 
 class EstudanteViewSet(viewsets.ModelViewSet):
+    authentication_classes = [BasicAuthentication]
+    permission_classes = [IsAuthenticated]
     queryset = Estudante.objects.all()
     serializer_class = EstudanteSerializer
 
 class CursoViewSet(viewsets.ModelViewSet):
+    authentication_classes = [BasicAuthentication]
+    permission_classes = [IsAuthenticated]
     queryset = Curso.objects.all()
     serializer_class = CursoSerializer
 
 class MatriculaViewSet(viewsets.ModelViewSet):
+    authentication_classes = [BasicAuthentication]
+    permission_classes = [IsAuthenticated]
     queryset = Matricula.objects.all()
     serializer_class = MatriculaSerializer
 
