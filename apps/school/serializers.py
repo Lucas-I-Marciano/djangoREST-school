@@ -6,6 +6,20 @@ class EstudanteSerializer(serializers.ModelSerializer):
         model = Estudante
         fields = ['id', 'nome', 'email', 'cpf', 'data_nascimento', 'celular']
 
+    def validate_nome(self, value):
+        """Check that 'nome' field is alphabetical
+
+        Args:
+            value (str): name value
+
+        Returns:
+            value: If validation is ok
+            raise Error: If validation is NOT ok
+        """
+        if not value.replace(' ', '').isalpha() :
+            raise serializers.ValidationError("Nome inválido")
+        return value
+
 
 class CursoSerializer(serializers.ModelSerializer):
     class Meta:
