@@ -14,7 +14,7 @@ class EstudanteSerializer(serializers.ModelSerializer):
         if cpf_invalido(data['cpf']):
             raise serializers.ValidationError({"cpf":"CPF Inválido"})
         if celular_invalido(data['celular']):
-            raise serializers.ValidationError({"celular":"Celular Inválido"})
+            raise serializers.ValidationError({"celular":"Celular deve seguir padrão: 89 99999-9999"})
         return data
 
 
