@@ -20,6 +20,11 @@ class EstudanteSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError("Nome inválido")
         return value
 
+    def validate_cpf(self, value):
+        if len(value) != 11 :
+            raise serializers.ValidationError("CPF Inválido")
+        return value
+
 
 class CursoSerializer(serializers.ModelSerializer):
     class Meta:
