@@ -23,6 +23,10 @@ class EstudanteSerializer(serializers.ModelSerializer):
     def validate_cpf(self, value):
         if len(value) != 11 :
             raise serializers.ValidationError("CPF Inválido")
+
+    def validate_celular(self, value):
+        if len(value) != 13 :
+            raise serializers.ValidationError("Celular Inválido")
         return value
 
 
