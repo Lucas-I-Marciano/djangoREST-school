@@ -11,6 +11,4 @@ def cpf_invalido(value):
 def celular_invalido(value):
     model = '[0-9]{2} [0-9]{5}-[0-9]{4}'
     result =  re.findall(model, value)
-    print(result)
-    print(bool(result))
     return not bool(result)
