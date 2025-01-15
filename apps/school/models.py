@@ -19,7 +19,7 @@ class Curso(models.Model):
         ("I", "Intermediário"),
         ("A", "Avançado"),
     ]
-    codigo = models.CharField(max_length=10, validators=[MinLengthValidator(3)])
+    codigo = models.CharField(max_length=10, validators=[MinLengthValidator(3)], unique=True)
     descricao = models.CharField(max_length=100, blank=False)
     nivel = models.CharField(choices=NIVEL, default="B", max_length=1, blank=False, null=False)
 
