@@ -6,28 +6,15 @@ class EstudanteSerializer(serializers.ModelSerializer):
         model = Estudante
         fields = ['id', 'nome', 'email', 'cpf', 'data_nascimento', 'celular']
 
-    def validate_nome(self, value):
-        """Check that 'nome' field is alphabetical
-
-        Args:
-            value (str): name value
-
-        Returns:
-            value: If validation is ok
-            raise Error: If validation is NOT ok
-        """
-        if not value.replace(' ', '').isalpha() :
-            raise serializers.ValidationError("Nome inválido")
-        return value
-
-    def validate_cpf(self, value):
-        if len(value) != 11 :
-            raise serializers.ValidationError("CPF Inválido")
-
-    def validate_celular(self, value):
-        if len(value) != 13 :
-            raise serializers.ValidationError("Celular Inválido")
-        return value
+    
+    def validate(self, data):
+        if not data['nome'].replace(' ', '').isalpha():
+            raise serializers.ValidationError({"nome":"Nome inválido"})
+        if len(data['cpf']) != 11:
+            raise serializers.ValidationError({"cpf":"CPF Inválido"})
+        if len(data['celular']) != 13:
+            raise serializers.ValidationError({"celular":"Celular Inválido"})
+        return data
 
 
 class CursoSerializer(serializers.ModelSerializer):
