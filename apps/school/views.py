@@ -27,10 +27,12 @@ class EstudanteViewSet(viewsets.ModelViewSet):
     filter_backends = [filters.OrderingFilter, filters.SearchFilter, DjangoFilterBackend]
     ordering_fields = ['nome']
     search_fields = ['nome', 'cpf']
+    http_method_names = ["get", "post", "put"]
 
 class CursoViewSet(viewsets.ModelViewSet):
     queryset = Curso.objects.all().order_by('id')
     serializer_class = CursoSerializer
+    http_method_names = ["get", "post", "put"]
 
 class MatriculaViewSet(viewsets.ModelViewSet):
     queryset = Matricula.objects.all().order_by('id')
@@ -38,6 +40,7 @@ class MatriculaViewSet(viewsets.ModelViewSet):
     filter_backends = [filters.SearchFilter, DjangoFilterBackend]
     search_fields = ['curso__descricao'] # Performing a related lookup on a ForeignKey or ManyToManyField with the lookup API double-underscore notation
     throttle_classes = [AnonRateThrottle, MatriculaRateThrottle]
+    http_method_names = ["get", "post", "put"]
 
     def get_serializer_class(self):
         if self.request.version == 'v2':
