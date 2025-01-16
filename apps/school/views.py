@@ -7,6 +7,7 @@ from apps.school.serializers import EstudanteSerializer, CursoSerializer, Matric
 
 from rest_framework.authentication import BasicAuthentication
 from rest_framework.permissions import IsAuthenticated
+from django_filters.rest_framework import DjangoFilterBackend
 
 # Create your views here.
 
@@ -20,7 +21,7 @@ def estudantes(request):
 class EstudanteViewSet(viewsets.ModelViewSet):
     queryset = Estudante.objects.all()
     serializer_class = EstudanteSerializer
-    filter_backends = [filters.OrderingFilter, filters.SearchFilter]
+    filter_backends = [filters.OrderingFilter, filters.SearchFilter, DjangoFilterBackend]
     ordering_fields = ['nome']
     search_fields = ['nome', 'cpf']
 
@@ -31,7 +32,7 @@ class CursoViewSet(viewsets.ModelViewSet):
 class MatriculaViewSet(viewsets.ModelViewSet):
     queryset = Matricula.objects.all()
     serializer_class = MatriculaSerializer
-    filter_backends = [filters.SearchFilter]
+    filter_backends = [filters.SearchFilter, DjangoFilterBackend]
     search_fields = ['curso__descricao'] # Performing a related lookup on a ForeignKey or ManyToManyField with the lookup API double-underscore notation
 
 
