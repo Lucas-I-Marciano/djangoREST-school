@@ -3,7 +3,7 @@ from django.http import JsonResponse
 from rest_framework import viewsets, generics, filters
 
 from apps.school.models import Estudante, Curso, Matricula
-from apps.school.serializers import EstudanteSerializer, CursoSerializer, MatriculaSerializer, MatriculasEstudantesSerializer, MatriculasCursosSerializer
+from apps.school.serializers import EstudanteSerializer, CursoSerializer, MatriculaSerializer, MatriculasEstudantesSerializer, MatriculasCursosSerializer, MatriculaSerializerV2
 
 from rest_framework.authentication import BasicAuthentication
 from rest_framework.permissions import IsAuthenticated
@@ -31,9 +31,14 @@ class CursoViewSet(viewsets.ModelViewSet):
 
 class MatriculaViewSet(viewsets.ModelViewSet):
     queryset = Matricula.objects.all()
-    serializer_class = MatriculaSerializer
+    # serializer_class = MatriculaSerializer
     filter_backends = [filters.SearchFilter, DjangoFilterBackend]
     search_fields = ['curso__descricao'] # Performing a related lookup on a ForeignKey or ManyToManyField with the lookup API double-underscore notation
+
+    def get_serializer_class(self):
+        if self.request.version == 'v2':
+            return MatriculaSerializerV2
+        return MatriculaSerializer
 
 
 class MatriculasEstudantesView(generics.ListAPIView):
