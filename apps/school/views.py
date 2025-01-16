@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.http import JsonResponse
-from rest_framework import viewsets, generics
+from rest_framework import viewsets, generics, filters
 
 from apps.school.models import Estudante, Curso, Matricula
 from apps.school.serializers import EstudanteSerializer, CursoSerializer, MatriculaSerializer, MatriculasEstudantesSerializer, MatriculasCursosSerializer
@@ -20,6 +20,8 @@ def estudantes(request):
 class EstudanteViewSet(viewsets.ModelViewSet):
     queryset = Estudante.objects.all()
     serializer_class = EstudanteSerializer
+    filter_backends = [filters.OrderingFilter]
+    ordering_fields = ['nome']
 
 class CursoViewSet(viewsets.ModelViewSet):
     queryset = Curso.objects.all()
