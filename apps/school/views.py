@@ -32,7 +32,7 @@ class MatriculaViewSet(viewsets.ModelViewSet):
     queryset = Matricula.objects.all()
     serializer_class = MatriculaSerializer
     filter_backends = [filters.SearchFilter]
-    search_fields = ['curso__descricao']
+    search_fields = ['curso__descricao'] # Performing a related lookup on a ForeignKey or ManyToManyField with the lookup API double-underscore notation
 
 
 class MatriculasEstudantesView(generics.ListAPIView):
