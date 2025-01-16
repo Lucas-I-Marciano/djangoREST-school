@@ -20,8 +20,9 @@ def estudantes(request):
 class EstudanteViewSet(viewsets.ModelViewSet):
     queryset = Estudante.objects.all()
     serializer_class = EstudanteSerializer
-    filter_backends = [filters.OrderingFilter]
+    filter_backends = [filters.OrderingFilter, filters.SearchFilter]
     ordering_fields = ['nome']
+    search_fields = ['nome', 'cpf']
 
 class CursoViewSet(viewsets.ModelViewSet):
     queryset = Curso.objects.all()
