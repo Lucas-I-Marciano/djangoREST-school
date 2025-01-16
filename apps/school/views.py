@@ -9,6 +9,9 @@ from rest_framework.authentication import BasicAuthentication
 from rest_framework.permissions import IsAuthenticated
 from django_filters.rest_framework import DjangoFilterBackend
 
+from rest_framework.throttling import AnonRateThrottle
+from apps.school.throttles import MatriculaRateThrottle
+
 # Create your views here.
 
 def estudantes(request):
@@ -34,6 +37,7 @@ class MatriculaViewSet(viewsets.ModelViewSet):
     # serializer_class = MatriculaSerializer
     filter_backends = [filters.SearchFilter, DjangoFilterBackend]
     search_fields = ['curso__descricao'] # Performing a related lookup on a ForeignKey or ManyToManyField with the lookup API double-underscore notation
+    throttle_classes = [AnonRateThrottle, MatriculaRateThrottle]
 
     def get_serializer_class(self):
         if self.request.version == 'v2':
