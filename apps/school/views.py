@@ -9,6 +9,9 @@ from rest_framework.authentication import BasicAuthentication
 from rest_framework.permissions import IsAuthenticated
 from django_filters.rest_framework import DjangoFilterBackend
 
+from rest_framework.throttling import AnonRateThrottle
+from apps.school.throttles import MatriculaRateThrottle
+
 # Create your views here.
 
 def estudantes(request):
@@ -19,21 +22,22 @@ def estudantes(request):
     return JsonResponse(estudantes)
 
 class EstudanteViewSet(viewsets.ModelViewSet):
-    queryset = Estudante.objects.all()
+    queryset = Estudante.objects.all().order_by('id')
     serializer_class = EstudanteSerializer
     filter_backends = [filters.OrderingFilter, filters.SearchFilter, DjangoFilterBackend]
     ordering_fields = ['nome']
     search_fields = ['nome', 'cpf']
 
 class CursoViewSet(viewsets.ModelViewSet):
-    queryset = Curso.objects.all()
+    queryset = Curso.objects.all().order_by('id')
     serializer_class = CursoSerializer
 
 class MatriculaViewSet(viewsets.ModelViewSet):
-    queryset = Matricula.objects.all()
+    queryset = Matricula.objects.all().order_by('id')
     # serializer_class = MatriculaSerializer
     filter_backends = [filters.SearchFilter, DjangoFilterBackend]
     search_fields = ['curso__descricao'] # Performing a related lookup on a ForeignKey or ManyToManyField with the lookup API double-underscore notation
+    throttle_classes = [AnonRateThrottle, MatriculaRateThrottle]
 
     def get_serializer_class(self):
         if self.request.version == 'v2':
@@ -44,10 +48,10 @@ class MatriculaViewSet(viewsets.ModelViewSet):
 class MatriculasEstudantesView(generics.ListAPIView):
     serializer_class = MatriculasEstudantesSerializer
     def get_queryset(self):
-        return Matricula.objects.filter(estudante=self.kwargs['pk'])
+        return Matricula.objects.filter(estudante=self.kwargs['pk']).order_by('id')
     
 
 class MatriculasCursosView(generics.ListAPIView):
     serializer_class = MatriculasCursosSerializer
     def get_queryset(self):
-        return Matricula.objects.filter(curso=self.kwargs['pk'])
+        return Matricula.objects.filter(curso=self.kwargs['pk']).order_by('id')
