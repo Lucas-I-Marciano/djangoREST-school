@@ -31,6 +31,8 @@ class CursoViewSet(viewsets.ModelViewSet):
 class MatriculaViewSet(viewsets.ModelViewSet):
     queryset = Matricula.objects.all()
     serializer_class = MatriculaSerializer
+    filter_backends = [filters.SearchFilter]
+    search_fields = ['curso__descricao']
 
 
 class MatriculasEstudantesView(generics.ListAPIView):
