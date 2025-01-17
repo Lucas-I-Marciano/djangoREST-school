@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'apps.snippets.apps.SnippetsConfig',
     'django_filters',
+    'drf_yasg',
 ]
 
 MIDDLEWARE = [
