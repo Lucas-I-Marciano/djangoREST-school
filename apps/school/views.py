@@ -22,6 +22,24 @@ def estudantes(request):
     return JsonResponse(estudantes)
 
 class EstudanteViewSet(viewsets.ModelViewSet):
+    """
+    Descrição da ViewSet:
+    - Endpoint para CRUD de estudantes.
+
+    Campos de ordenação:
+    - nome: permite ordenar os resultados por nome.
+
+    Campos de pesquisa:
+    - nome: permite pesquisar os resultados por nome.
+    - cpf: permite pesquisar os resultados por CPF.
+
+    Métodos HTTP Permitidos:
+    - GET, POST, PUT, PATCH, DELETE
+
+    Classe de Serializer:
+    - EstudanteSerializer: usado para serialização e desserialização de dados.
+    - Se a versão da API for 'v2', usa EstudanteSerializerV2.
+    """
     queryset = Estudante.objects.all().order_by('id')
     serializer_class = EstudanteSerializer
     filter_backends = [filters.OrderingFilter, filters.SearchFilter, DjangoFilterBackend]
@@ -30,11 +48,29 @@ class EstudanteViewSet(viewsets.ModelViewSet):
     http_method_names = ["get", "post", "put"]
 
 class CursoViewSet(viewsets.ModelViewSet):
+    """
+    Descrição da ViewSet:
+    - Endpoint para CRUD de cursos.
+
+    Métodos HTTP Permitidos:
+    - GET, POST, PUT, PATCH, DELETE
+    """
     queryset = Curso.objects.all().order_by('id')
     serializer_class = CursoSerializer
     http_method_names = ["get", "post", "put"]
 
 class MatriculaViewSet(viewsets.ModelViewSet):
+    """
+    Descrição da ViewSet:
+    - Endpoint para CRUD de matrículas.
+
+    Métodos HTTP Permitidos:
+    - GET, POST
+
+    Throttle Classes:
+    - MatriculaAnonRateThrottle: limite de taxa para usuários anônimos.
+    - UserRateThrottle: limite de taxa para usuários autenticados.
+    """
     queryset = Matricula.objects.all().order_by('id')
     # serializer_class = MatriculaSerializer
     filter_backends = [filters.SearchFilter, DjangoFilterBackend]
@@ -49,12 +85,24 @@ class MatriculaViewSet(viewsets.ModelViewSet):
 
 
 class MatriculasEstudantesView(generics.ListAPIView):
+    """ 	
+    Descrição da View:
+    - Lista Matriculas por id de Estudante
+    Parâmetros:
+    - pk (int): O identificador primário do objeto. Deve ser um número inteiro.
+    """
     serializer_class = MatriculasEstudantesSerializer
     def get_queryset(self):
         return Matricula.objects.filter(estudante=self.kwargs['pk']).order_by('id')
     
 
 class MatriculasCursosView(generics.ListAPIView):
+    """
+    Descrição da View:
+    - Lista Matriculas por id de Curso
+    Parâmetros:
+    - pk (int): O identificador primário do objeto. Deve ser um número inteiro.
+    """
     serializer_class = MatriculasCursosSerializer
     def get_queryset(self):
         return Matricula.objects.filter(curso=self.kwargs['pk']).order_by('id')
