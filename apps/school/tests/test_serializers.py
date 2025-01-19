@@ -1,6 +1,6 @@
 from django.test import TestCase
-from apps.school.serializers import EstudanteSerializer
-from apps.school.models import Estudante
+from apps.school.serializers import EstudanteSerializer, CursoSerializer
+from apps.school.models import Estudante, Curso
 from datetime import date
 
 
@@ -24,3 +24,19 @@ class SerializerEstudanteTestCase(TestCase):
         self.assertEqual(self.serializer_estudante.data['cpf'], self.estudante.cpf)
         self.assertEqual(self.serializer_estudante.data['data_nascimento'], self.estudante.data_nascimento)
         self.assertEqual(self.serializer_estudante.data['celular'], self.estudante.celular)
+
+class SerializerCourseTestCase(TestCase):
+    def setUp(self):
+        self.curso = Curso(
+            codigo = "ABCDEF",
+            descricao = "Instância do curso de teste",
+            nivel = "A"
+        )
+        self.serializer_course = CursoSerializer(instance=self.curso)
+    
+    def test_fields_course_serializer(self):
+        set_data = set(self.serializer_course.data)
+        set_serializer_course_fields = set([
+            'codigo', 'descricao', 'nivel', 'id'
+        ])
+        self.assertEqual(set_data, set_serializer_course_fields)
