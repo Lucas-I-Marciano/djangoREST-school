@@ -80,3 +80,9 @@ class SerializerEnrollmentTestCase(TestCase):
         set_data = set(self.serializer_enrollment.data)
         set_fields = set(['id', 'estudante', 'curso', 'periodo'])
         self.assertEqual(set_data, set_fields)
+
+    def test_field_value_enrollment_serializer(self):
+        data = self.serializer_enrollment.data
+        self.assertEqual(data['estudante'], self.estudante.nome) # Because on serializer: curso = serializers.ReadOnlyField(source='curso.descricao')
+        self.assertEqual(data['curso'], self.curso.descricao) # Because on serializer: estudante = serializers.ReadOnlyField(source='estudante.nome')
+        self.assertEqual(data['periodo'], 'Matutino') # Because on serializer: periodo = serializers.SerializerMethodField() --> obj.get_periodo_display()
