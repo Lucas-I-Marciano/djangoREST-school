@@ -1,5 +1,5 @@
 from django.test import TestCase
-from apps.school.models import Estudante
+from apps.school.models import Estudante, Curso
 
 import datetime
 
@@ -15,14 +15,25 @@ class test_EstudanteModelTestCase(TestCase):
             celular = "89 99999 9999"
         )
 
+        Curso.objects.create(
+            codigo = "ABCDEF",
+            descricao = "Teste de criação de curso",
+            nivel = "A"
+        )
+
+
+
     def test_assess_attributes_student(self):
         """Test attributes from student model"""
         estudante = Estudante.objects.get(email="l@l.com")
-        print(estudante)
         self.assertEqual(estudante.nome, "Lucas Ioran Marciano")
         self.assertEqual(estudante.email, "l@l.com")
         self.assertEqual(estudante.cpf, "80597057095")
         self.assertEqual(estudante.data_nascimento, datetime.date(1999, 1, 7))
         self.assertEqual(estudante.celular, "89 99999 9999")
     
-    # def test_alteracao
+    def test_assess_attributes_course(self): 
+        course = Curso.objects.get(codigo="ABCDEF")
+        self.assertEqual(course.codigo, "ABCDEF")
+        self.assertEqual(course.descricao, "Teste de criação de curso")
+        self.assertEqual(course.nivel, "A")
