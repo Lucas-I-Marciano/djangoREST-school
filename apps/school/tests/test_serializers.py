@@ -46,3 +46,10 @@ class SerializerCourseTestCase(TestCase):
         self.assertEqual(data['codigo'], self.curso.codigo)
         self.assertEqual(data['descricao'], self.curso.descricao)
         self.assertEqual(data['nivel'], self.curso.nivel)
+        assert_dict = {
+            "id": None,
+            "codigo" : self.curso.codigo,
+            "descricao" : self.curso.descricao,
+            "nivel" : self.curso.nivel,
+        }
+        self.assertEqual(dict(data), assert_dict)
