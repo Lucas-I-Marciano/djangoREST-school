@@ -1,6 +1,6 @@
 from django.test import TestCase
-from apps.school.serializers import EstudanteSerializer, CursoSerializer
-from apps.school.models import Estudante, Curso
+from apps.school.serializers import EstudanteSerializer, CursoSerializer, MatriculaSerializerV2
+from apps.school.models import Estudante, Curso, Matricula
 from datetime import date
 
 
@@ -53,3 +53,30 @@ class SerializerCourseTestCase(TestCase):
             "nivel" : self.curso.nivel,
         }
         self.assertEqual(dict(data), assert_dict)
+
+
+class SerializerEnrollmentTestCase(TestCase):
+    def setUp(self):
+        self.estudante = Estudante(
+            nome = "Lucas Ioran Marciano",
+            email = "l@l.com",
+            cpf = "80597057095",
+            data_nascimento = "1999-01-07",
+            celular = "89 99999 9999"
+        )
+        self.curso = Curso(
+            codigo = "ABCDEF",
+            descricao = "Instância do curso de teste",
+            nivel = "A"
+        )
+        self.matricula = Matricula(
+            estudante = self.estudante,
+            curso = self.curso,
+            periodo = "M"
+        )
+        self.serializer_enrollment = MatriculaSerializerV2(instance=self.matricula)
+
+    def test_fields_course_serializer(self):
+        set_data = set(self.serializer_enrollment.data)
+        set_fields = set(['id', 'estudante', 'curso', 'periodo'])
+        self.assertEqual(set_data, set_fields)
