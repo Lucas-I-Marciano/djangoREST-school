@@ -35,3 +35,16 @@ class test_CursosTestCase(APITestCase):
         response = self.client.post(self.url_list_course, data, format='json')
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(Curso.objects.get().codigo, data["codigo"])
+
+    def test_delete_course(self):
+        data = {
+            "codigo": "JS2",
+            "descricao": "JavaScript2",
+            "nivel": "B"
+        }
+        self.client.force_authenticate(self.superuser)
+        response = self.client.post(self.url_list_course, data, format='json')
+        print(response.data)
+        url_delete = f'{self.url_list_course}{response.data['id']}/'
+        response = self.client.delete(url_delete)
+        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
