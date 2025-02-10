@@ -10,3 +10,11 @@ class test_AutenticacaoUsuario(TestCase):
         user = authenticate(username="admin", password="test123")
         is_user_authenticated = (user.is_authenticated) and (user is not None)
         self.assertTrue(is_user_authenticated)
+
+    def test_wrong_username_authentication(self):
+        user = authenticate(username="Admin", password="test123")
+        if user is None:
+            is_user_authenticated = False
+        else:
+            is_user_authenticated = (user.is_authenticated) and (user is not None)
+        self.assertFalse(is_user_authenticated)
