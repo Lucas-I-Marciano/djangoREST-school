@@ -8,4 +8,5 @@ class test_AutenticacaoUsuario(TestCase):
 
     def test_correct_authentication(self):
         user = authenticate(username="admin", password="test123")
-        self.assertTrue(user)
+        is_user_authenticated = (user.is_authenticated) and (user is not None)
+        self.assertTrue(is_user_authenticated)
