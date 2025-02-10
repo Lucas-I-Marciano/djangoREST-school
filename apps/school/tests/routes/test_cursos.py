@@ -44,7 +44,6 @@ class test_CursosTestCase(APITestCase):
         }
         self.client.force_authenticate(self.superuser)
         response = self.client.post(self.url_list_course, data, format='json')
-        print(response.data)
         url_delete = f'{self.url_list_course}{response.data['id']}/'
         response = self.client.delete(url_delete)
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
