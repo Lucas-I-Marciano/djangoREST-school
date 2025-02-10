@@ -13,3 +13,12 @@ class test_CursosTestCase(APITestCase):
         self.client.force_authenticate(self.superuser)
         response = self.client.get(self.url_list_course)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_create_course(self):
+        data = {
+            "codigo": "JS2",
+            "descricao": "JavaScript2",
+            "nivel": "B"
+        }
+        response = self.client.post(self.url_list_course, data, format='json')
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
