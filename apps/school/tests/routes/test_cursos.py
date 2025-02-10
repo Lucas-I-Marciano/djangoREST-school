@@ -4,6 +4,8 @@ from django.urls import reverse
 from rest_framework.test import APITestCase
 from rest_framework import status
 
+from apps.school.models import Curso
+
 class test_CursosTestCase(APITestCase):
     def setUp(self):
         self.url_list_course = reverse('Cursos-list')
@@ -32,3 +34,4 @@ class test_CursosTestCase(APITestCase):
         self.client.force_authenticate(self.superuser)
         response = self.client.post(self.url_list_course, data, format='json')
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(Curso.objects.get().codigo, data["codigo"])
