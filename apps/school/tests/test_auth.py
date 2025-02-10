@@ -2,6 +2,10 @@ from django.test import TestCase
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
 
+from django.urls import reverse
+from rest_framework.test import APITestCase
+from rest_framework import status
+
 class test_AutenticacaoUsuario(TestCase):
     def setUp(self):
         self.superuser = User.objects.create_superuser("admin", "l@l.com", "test123")
@@ -26,3 +30,11 @@ class test_AutenticacaoUsuario(TestCase):
         else:
             is_user_authenticated = (user.is_authenticated) and (user is not None)
         self.assertFalse(is_user_authenticated)
+    
+class test_requisition(APITestCase):
+    def setUp(self):
+        self.url_list_course = reverse('Cursos-list')
+
+    def test_list_course(self):
+        response = self.client.get(self.url_list_course)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
