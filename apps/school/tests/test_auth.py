@@ -34,7 +34,9 @@ class test_AutenticacaoUsuario(TestCase):
 class test_requisition(APITestCase):
     def setUp(self):
         self.url_list_course = reverse('Cursos-list')
+        self.superuser = User.objects.create_superuser("admin", "l@l.com", "test123")
 
     def test_list_course(self):
+        self.client.force_authenticate(self.superuser)
         response = self.client.get(self.url_list_course)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
