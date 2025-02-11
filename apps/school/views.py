@@ -57,7 +57,7 @@ class CursoViewSet(viewsets.ModelViewSet):
     """
     queryset = Curso.objects.all().order_by('id')
     serializer_class = CursoSerializer
-    http_method_names = ["get", "post", "put"]
+    http_method_names = ["get", "post", "put", "delete"]
 
 class MatriculaViewSet(viewsets.ModelViewSet):
     """
